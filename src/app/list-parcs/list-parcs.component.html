@@ -1,0 +1,16 @@
+<div class="main">
+  <div *ngIf="error">
+    <p>Error: {{ error }}</p>
+  </div>
+
+  <div class="parcs-container" *ngIf="parcs">
+    <ul>
+      <li *ngFor="let parc of parcs">
+        <div class="parc">
+          <span class="parc-title">{{ parc.nom }}</span>
+          <span class="parc-description">{{ parc.adresse }}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
