@@ -3,12 +3,18 @@
     <p>Error: {{ error }}</p>
   </div>
 
+  <!-- LEAFLET MAP -->
+  <div class="map-wrapper">
+    <div class="map-border">
+      <div id="map"></div>
+    </div>
+  </div>
+
   <div class="parcs-container" *ngIf="parcs">
     <ul>
       <li *ngFor="let parc of parcs">
         <div class="parc">
           <span class="parc-title">{{ parc.nom }}</span>
-          <span class="parc-description">{{ parc.adresse }}</span>
         </div>
       </li>
     </ul>

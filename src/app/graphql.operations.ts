@@ -11,6 +11,8 @@ const GET_PARCS = gql`
       creation
       hectares
       quartier
+      img
+      position 
     }
   }
 `;
