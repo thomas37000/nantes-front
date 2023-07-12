@@ -1,25 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
 @import "~leaflet/dist/leaflet.css";
 
-.map-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin-top: 5rem;
+.parcImgs {
+  display: flex;
+  justify-content: space-around;
 }
 
-.map-border {
-  height: 70%;
-}
-
-#map {
-  height: 100%;
-}
-
-@media screen and (max-width: 350px) {
-  .map-wrapper {
-    max-width: 450px;
-  }
+.parcImgs img {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
 }

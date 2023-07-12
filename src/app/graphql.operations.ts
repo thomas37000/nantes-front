@@ -1,6 +1,6 @@
 import { gql } from 'apollo-angular';
 
-const GET_PARCS = gql`
+const GET_DATAS = gql`
   query GetParcs {
     parcs {
       id
@@ -12,9 +12,19 @@ const GET_PARCS = gql`
       hectares
       quartier
       img
-      position 
+      position
+    }
+    piscines {
+      id
+      nom
+      adresse
+      departement
+      ville
+      creation
+      quartier
+      position
     }
   }
 `;
 
-export { GET_PARCS };
+export { GET_DATAS };

@@ -3,20 +3,25 @@
     <p>Error: {{ error }}</p>
   </div>
 
-  <!-- LEAFLET MAP -->
-  <div class="map-wrapper">
-    <div class="map-border">
-      <div id="map"></div>
-    </div>
-  </div>
-
+  <!-- Liste Parcs -->
   <div class="parcs-container" *ngIf="parcs">
-    <ul>
-      <li *ngFor="let parc of parcs">
-        <div class="parc">
-          <span class="parc-title">{{ parc.nom }}</span>
-        </div>
+    <ul class="list parcs-list">
+      <li
+        *ngFor="let parc of parcs; let i = index"
+        (click)="onSelectedPark(parc)"
+        class="item parc-item"
+      >
+        <span class="parc-title">{{ parc.nom }}</span>
       </li>
     </ul>
   </div>
+</div>
+
+<!-- Liste Piscines -->
+<div class="parcs-container" *ngIf="piscines">
+  <ul class="list piscines-list">
+    <li *ngFor="let piscine of piscines" class="item piscine-item">
+      <span class="parc-title">{{ piscine.nom }}</span>
+    </li>
+  </ul>
 </div>

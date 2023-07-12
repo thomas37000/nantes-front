@@ -1,0 +1,56 @@
+.parcs-container {
+  display: flex;
+  justify-content: center;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  list-style-type: none;
+}
+
+.parcs-list {
+  margin-top: 4rem;
+}
+
+.item {
+  margin-right: 10px;
+  padding: 5px 10px;
+  border-radius: 16px;
+  font-size: x-small;
+}
+
+.parc-item {
+  background-color: lightgreen;
+}
+
+.piscine-item {
+  background-color: rgb(43 130 203);
+  color: #fff;
+}
+
+.chip-listbox {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+}
+
+.chip-option {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #e0e0e0;
+  border-radius: 16px;
+}
+
+.chip-option.accent {
+  background-color: #ff4081;
+  color: white;
+}
+
+.chip-option.warn {
+  background-color: #f44336;
+  color: white;
+}

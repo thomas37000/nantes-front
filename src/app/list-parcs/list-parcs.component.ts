@@ -1,27 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import * as L from 'leaflet';
-import { GET_PARCS } from '../graphql.operations';
+import { selectedIcon, defaultIcon, greenIcon } from '../icons/icons';
+import { GET_DATAS } from '../graphql.operations';
 
 @Component({
   selector: 'app-list-parcs',
   templateUrl: './list-parcs.component.html',
   styleUrls: ['./list-parcs.component.css'],
 })
+/***************** TODO: ******************/
+
+/* récupérer user_position
+ * pour calculer la distance entre le parc sélectionné
+ * et celui de l'user avec la géolocalisation
+ * Afficher le tracé avec Leaflet entre les 2 markers
+ */
+/******************************************/
 export class ListParcsComponent implements OnInit {
   parcs: any[] = [];
+  piscines: any[] = [];
   error: any;
   map: any;
 
+  selectedParc: number | null = -1;
+  markers: any[] = [];
+
   constructor(private apollo: Apollo) {}
 
-  ngOnInit(): void {
+  initMap(): void {
     this.apollo
       .watchQuery({
-        query: GET_PARCS,
+        query: GET_DATAS,
       })
       .valueChanges.subscribe(({ data, error }: any) => {
         this.parcs = data.parcs;
+        this.piscines = data.piscines;
         this.error = error;
 
         const zoomLevel = 12;
@@ -44,19 +58,10 @@ export class ListParcsComponent implements OnInit {
 
         mainLayer.addTo(this.map);
 
-        const Icons = new L.Icon({
-          iconUrl: '../../assets/marker-icon.png',
-          iconRetinaUrl: '../../assets/marker-icon-2x.png',
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
-          popupAnchor: [1, -34],
-          shadowUrl: '../../assets/marker-shadow.png',
-          shadowSize: [41, 41],
-        });
-
-        // ${parc?.img ? `<img src=${parc?.img } alt=${parc?.nom}>` : ''}
-        this.parcs.forEach((parc: any) => {
+        // AFFICHE toute les parcs sur la carte
+        this.parcs.forEach((parc: any, id: any) => {
           const position = parc?.position;
+
           const parcDesc = `
             <h3>${parc?.nom}</h3>
             <div>${parc?.adresse}</div>
@@ -67,13 +72,63 @@ export class ListParcsComponent implements OnInit {
                 ? `<div>quartier(s): ${parc.quartier.join(', ')}</div>`
                 : ''
             }
+            ${
+              parc?.img && parc.img.length > 0
+                ? `<div class="parcImgs">
+                    ${parc.img
+                      .map(
+                        (photo: any) => `<img src="${photo}" alt="${parc.nom}">`
+                      )
+                      .join('')}
+                  </div>`
+                : ''
+            }
             `;
 
           const marker = L.marker(position, {
-            icon: Icons,
+            icon: greenIcon,
           }).addTo(this.map);
+
+          // FIXME:
+          // marker.on('click', () => {
+          //   this.onSelectedPark(id);
+          // });
+
           marker.bindPopup(parcDesc);
+          this.markers.push(marker);
+        });
+
+        // AFFICHE toute les piscines sur la carte
+        this.piscines.forEach((piscine: any, id: any) => {
+          const position = piscine?.position;
+
+          const piscineDesc = `
+            <h3>${piscine?.nom}</h3>
+            <div>${piscine?.adresse}</div>
+            ${
+              piscine?.creation ? `<div>créé en: ${piscine.creation}</div>` : ''
+            }
+            ${
+              piscine?.quartier
+                ? `<div>quartier(s): ${piscine.quartier.join(', ')}</div>`
+                : ''
+            }
+            `;
+
+          const marker = L.marker(position, {
+            icon: defaultIcon,
+          }).addTo(this.map);
+
+          marker.bindPopup(piscineDesc);
         });
       });
+  }
+
+  onSelectedPark(parc: any): void {
+    console.log(parc);
+  }
+
+  ngOnInit(): void {
+    this.initMap();
   }
 }
